@@ -14,15 +14,17 @@ import api from './services/api'
 
 export default function App() {
   const [repositories, setRepositories] = useState([])
+  const [likes, setLikes] = useState(0)
 
   useEffect(() => {
     api.get('repositories').then(response => {
       setRepositories(response.data)
     })
-  }, [repositories])
+  }, [])
 
   async function handleLikeRepository(id) {
     const response = await api.post(`repositories/${id}/like`)
+    setLikes(response.data.likes)
   }
 
   return (
@@ -51,7 +53,7 @@ export default function App() {
                     style={styles.likeText}
                     testID={`repository-likes-${repository.id}`}
                   >
-                    {`${repository.likes} ${repository.likes > 1 ? 'curtidas' : 'curtida'}`}
+                    {`${likes} ${likes > 1 ? 'curtidas' : 'curtida'}`}
                   </Text>
                 </View>
       
